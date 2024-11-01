@@ -13,6 +13,7 @@ import { signOut } from 'firebase/auth';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { useNavigate } from 'react-router-dom';
 import { resetCameraImage } from './features/cameraSlice';
+import _ from "lodash"
 
 const Chats = () => {
   const [posts, setPosts] = useState([]);
@@ -21,6 +22,7 @@ const Chats = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.info(posts);
+  const filteredPosts = _.uniqBy(posts, item => item.data.username)
   useEffect(() => {
     const fun = async () => {
       const querySnapshot = await getDocs(
@@ -67,7 +69,7 @@ const Chats = () => {
         />
       </div>
       <div className="chat_posts">
-        {posts
+        {filteredPosts
           ?.filter((item) =>
             search ? item?.data?.username?.includes(search) : item
           )
