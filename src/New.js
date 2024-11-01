@@ -2,15 +2,12 @@ import { useState } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setCameraImage } from './features/cameraSlice';
 
 function New() {
-  const { state } = useLocation();
   const navigate = useNavigate();
-  const { link } = state;
   const dispatch = useDispatch();
-  const [src, setSrc] = useState(link);
   const [crop, setCrop] = useState({ unit: '%', aspect: 0.63, height: 80 });
   const [image, setImage] = useState(null);
   const [output, setOutput] = useState(null);
@@ -47,10 +44,9 @@ function New() {
 
   return (
     <>
-      {!output && src && (
+      {!output &&  (
         <div>
           <ReactCrop
-            src={src}
             onImageLoaded={setImage}
             crop={crop}
             onChange={setCrop}
